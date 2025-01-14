@@ -6,6 +6,13 @@ import { EventPattern, Payload } from '@nestjs/microservices';
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
+  @EventPattern('user_registered')
+  userRegistered(@Payload() userRegisteredPayload) {
+    this.notificationsService.sendRegistrationConfirmationMail(
+      userRegisteredPayload,
+    );
+  }
+
   @EventPattern('order_paid')
   paidOrder(@Payload() paidOrder) {
     this.notificationsService.sendConfirmationMail(paidOrder);
